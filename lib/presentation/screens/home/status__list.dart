@@ -1,4 +1,4 @@
-import 'package:chat_up/presentation/screens/home/my_status.dart';
+import 'package:chat_up/presentation/screens/home/status%20sub%20pages/my_status.dart';
 import 'package:chat_up/presentation/screens/home/status%20sub%20pages/user_status.dart';
 import 'package:flutter/material.dart';
 
