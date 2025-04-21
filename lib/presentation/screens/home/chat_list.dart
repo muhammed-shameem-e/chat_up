@@ -1,5 +1,5 @@
-import 'package:chat_up/presentation/screens/home/call%20sub%20pages/call_screen.dart';
 import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/chat_screen.dart';
+import 'package:chat_up/presentation/screens/settings/additional_functions.dart';
 import 'package:flutter/material.dart';
 
 class ChatList extends StatelessWidget {
@@ -7,6 +7,7 @@ class ChatList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -60,14 +61,9 @@ class ChatList extends StatelessWidget {
                         ),
                       ),
                    ),
-                    title: const Text(
+                    title: Text(
                       'David',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: textTheme.displayLarge,
                     ),
                     subtitle: const Text(
                       'hyy',
@@ -121,90 +117,3 @@ class ChatList extends StatelessWidget {
     );
   }
 }
-void showUserProfile(BuildContext context){
-    showDialog(
-      context: context, 
-      builder: (context){
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: SizedBox(
-            width: 400,
-            height: 400,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        width: 1,
-                        color: Colors.white,
-                      )
-                    ),
-                    child: const CircleAvatar(
-                      radius: 100,
-                      backgroundColor: Colors.black,
-                      child: Icon(Icons.person,color: Colors.white,size: 100),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ChatScreen()));
-                  }, 
-                  child: const Icon(Icons.message,color: Colors.white)),
-                  const SizedBox(width: 20),
-                   ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
-                  }, 
-                  child: const Icon(Icons.call,color: Colors.white)),
-                  const SizedBox(width: 20),
-                   ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
-                  }, 
-                  child: const Icon(Icons.videocam,color: Colors.white))
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
-      });
-  }

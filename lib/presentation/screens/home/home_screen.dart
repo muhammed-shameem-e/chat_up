@@ -3,9 +3,11 @@ import 'package:chat_up/presentation/screens/home/chat_list.dart';
 import 'package:chat_up/presentation/screens/home/group_list.dart';
 import 'package:chat_up/presentation/screens/home/status__list.dart';
 import 'package:chat_up/presentation/screens/settings/about_help.dart';
+import 'package:chat_up/presentation/screens/settings/additional_functions.dart';
 import 'package:chat_up/presentation/screens/settings/profile_screen.dart';
 import 'package:chat_up/presentation/screens/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,6 +18,7 @@ class HomeScreen extends StatelessWidget {
       length: 4,
        child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           backgroundColor: const Color.fromARGB(255, 90, 90, 90),
           // ignore: prefer_const_literals_to_create_immutables
           actions: [
@@ -38,13 +41,15 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: PopupMenuButton(
                   icon: const Icon(Icons.more_vert,color: Colors.white),
-                  onSelected: (value){
+                  onSelected: (value) async{
                     if(value == 'Settings'){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsScreen()));
                     }else if(value == 'Profile'){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileScreen()));
                     }else if(value == 'About & Help'){
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) => AboutHelp()));
+                    }else if(value == 'Log Out'){
+                      confirmation(context);
                     }
                   },
                   itemBuilder: (context) => [
@@ -67,6 +72,13 @@ class HomeScreen extends StatelessWidget {
                       child:Text('About & Help',
                       style: TextStyle(
                         color: Colors.white,
+                      ),),
+                    ),
+                    const PopupMenuItem(
+                      value: 'Log Out',
+                      child:Text('Log Out',
+                      style: TextStyle(
+                        color: Colors.amber,
                       ),),
                     ),
                   ]),

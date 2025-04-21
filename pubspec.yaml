@@ -37,6 +37,16 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^3.12.1
   firebase_auth: ^5.5.1
+  country_picker: ^2.0.27
+  provider: ^6.1.2
+  image_picker: ^1.1.2
+  shared_preferences: ^2.5.2
+  firebase_storage: ^12.4.4
+  cloud_firestore: ^5.6.5
+  intl_phone_field: ^3.2.0
+  cloudinary_public: ^0.23.1
+  uuid: ^4.5.1
+  contacts_service: ^0.6.3
 
 dev_dependencies:
   flutter_test:

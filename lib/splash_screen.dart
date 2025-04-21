@@ -1,32 +1,21 @@
-import 'package:chat_up/presentation/screens/auth/welcom_screen.dart';
+import 'package:chat_up/logic/providers/splash_provider.dart';
 import 'package:flutter/material.dart';
 
-class Splash extends StatefulWidget {
+class Splash extends StatelessWidget {
   const Splash({super.key});
 
   @override
-  State<Splash> createState() => _SplashState();
-}
-
-class _SplashState extends State<Splash> {
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    hold(context);
-  }
-  @override
   Widget build(BuildContext context) {
+    // Call the provider function after build is done
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SplashProvider().startCheck(context);
+    });
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
-        child: Image.asset('assets/chatuplogo.png',height: 200,width: 200),
-          ),
+        child: Image.asset('assets/chatuplogo.png', height: 200, width: 200),
+      ),
     );
   }
-}
-  Future<void> hold(BuildContext context)async{
-  await Future.delayed(const Duration(seconds: 3));
-  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Welcome()));
 }

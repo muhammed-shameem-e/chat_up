@@ -1,4 +1,5 @@
 import 'package:chat_up/presentation/screens/home/group%20sub%20pages/group_members_list.dart';
+import 'package:chat_up/presentation/screens/settings/additional_functions.dart';
 import 'package:flutter/material.dart';
 
 class GroupProfile extends StatelessWidget {
@@ -187,51 +188,6 @@ class GroupProfile extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-  void exitConfirm(BuildContext context){
-    showDialog(
-      context: (context), 
-      builder: (context){
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: const Text(
-            'Confirm',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          content: const Text(
-            'Are you sure to delete this group',
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              },
-               child: const Text(
-                'NO',
-                style: TextStyle(
-                  color: Colors.blue,
-                ),
-               )),
-               TextButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              },
-               child: const Text(
-                'YES',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-               ))
-          ],
-        );}
     );
   }
 }

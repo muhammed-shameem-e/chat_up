@@ -12,104 +12,96 @@ class _WelcomeState extends State<Welcome> {
   final ScrollController _scrollController = ScrollController();
   bool isScrolledToEnd = false;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _scrollController.addListener(onScroll);
-  }
+  final List<String> instructions = [
+    "Experience seamless messaging, voice & video calls with ease.",
+    "All messages are end-to-end encrypted for your privacy. We do not store your chats on our servers.",
+    "Respect others while chatting. Hate speech, harassment, or threats are not tolerated. Avoid sending spam, misleading content, or harmful links.",
+    "Your phone number is required for authentication. You can manage your account settings anytime under Settings > Privacy.",
+    "Make high-quality voice and video calls using an internet connection. Share status updates with your contacts for 24 hours before they disappear.",
+    "You can send images, videos, voice messages, and documents easily. Manage your media storage in Settings > Storage & Data.",
+    "Enable Two-Step Verification for additional security. Report & block suspicious contacts anytime.",
+    "Regular updates bring new features and security improvements. For any issues, contact Support in Settings > Help.",
+  ];
+
   @override
   Widget build(BuildContext context) {
-
-    List<String> terms = [
-  "1. Experience seamless messaging, voice & video calls with ease.",
-
-  "2. Secure & Private Messaging",
-  "     All messages are end-to-end encrypted for your privacy.",
-  "     We do not store your chats on our servers.",
-
-  "3. User Guidelines",
-  "     Respect others while chatting. Hate speech, harassment, or threats are not tolerated.",
-  "     Avoid sending spam, misleading content, or harmful links.",
-
-  "4. Account & Data",
-  "     Your phone number is required for authentication.",
-  "     You can manage your account settings anytime under Settings > Privacy.",
-
-  "5. Calling & Status",
-  "     Make high-quality voice and video calls using an internet connection.",
-  "     Share status updates with your contacts for 24 hours before they disappear.",
-
-  "6. Media & Storage",
-  "     You can send images, videos, voice messages, and documents easily.",
-  "     Manage your media storage in Settings > Storage & Data.",
-
-  "7. Safety & Security",
-  "     Enable Two-Step Verification for additional security.",
-  "     Report & block suspicious contacts anytime.",
-
-  "8. Updates & Support",
-  "     Regular updates bring new features and security improvements.",
-  "     For any issues, contact Support in Settings > Help."
-];
-
-
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text('Welcome to ChatUp',
-              style: TextStyle(
-                color: Colors.amber,
-                fontSize: 30,
-                fontStyle:FontStyle.italic,
-                fontWeight: FontWeight.bold,
-              ),),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              height: 300,
-              child: ListView.separated(
-                controller: _scrollController,
-                itemBuilder: (ctx,index){
-                  return Text(terms[index],
-                  style: const TextStyle(
-                    color: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              const Center(
+                child: Text(
+                  'Welcome to ChatUp',
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontSize: 28,
                     fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
                   ),
-                  textAlign: TextAlign.center,);
-                }, 
-                separatorBuilder: (ctx,index){
-                  return const SizedBox(height: 5);
-                }, 
-                itemCount: terms.length),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: TextButton(
-              onPressed: isScrolledToEnd ?
-              (){
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const Verification()));
-              }: null,
-               child: Text('Agree',
-              style: TextStyle(
-                color: isScrolledToEnd ? Colors.amber : Colors.grey,
-              ),)),
-            )
-          ],
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              const SizedBox(height: 20),
+              Expanded(
+                child: ListView.separated(
+                  itemCount: instructions.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 10),
+                  itemBuilder: (context, index) {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${index + 1}. ',
+                          style: const TextStyle(
+                            color: Colors.amber,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            instructions[index],
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontSize: 15,
+                              height: 1.4,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor:Colors.amber,
+                  minimumSize: const Size(400, 50)
+                ),
+                onPressed: (){
+                  Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => Verification()),
+                        );
+                },
+                child:  const Text(
+                    'Agree',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic
+                    ),
+                  ),
+              ),
+            ],
+          ),
         ),
       ),
     );
-  }
-  void onScroll(){
-    if(_scrollController.position.pixels >= _scrollController.position.maxScrollExtent){
-      setState(() {
-        isScrolledToEnd = true;
-      });
-    }
   }
 }

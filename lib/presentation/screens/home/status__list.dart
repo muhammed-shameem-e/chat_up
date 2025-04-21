@@ -7,6 +7,7 @@ class StatusList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -88,14 +89,9 @@ class StatusList extends StatelessWidget {
                         backgroundColor: Colors.black,
                       ),
                     ),
-                    title: const Text(
+                    title: Text(
                       'David',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 17.5,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic,
-                      ),
+                      style: textTheme.displayLarge,
                     ),
                     subtitle: const Text(
                       '3:17 PM',
