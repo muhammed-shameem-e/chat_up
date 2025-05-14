@@ -1,105 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class CallScreen extends StatelessWidget {
-  const CallScreen({super.key});
+  CallScreen
+  ({
+    super.key,
+    required this.channelName,
+    required this.isVideoCall,
+    required this.userId,
+    required this.userName,
+    });
+
+  final String channelName;
+  final bool isVideoCall;
+  final String userId;
+  final String userName;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          const SizedBox(height: 60),
-           const Center(
-            child: Text(
-              'David',
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
-            ),
-          ),
-          const Center(
-            child: Text(
-              'Ringing...',
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontSize: 15,
-              ),
-            ),
-          ),
-          const SizedBox(height: 150),
-           Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  width: 1,
-                  color: Colors.white,
-                )
-              ),
-              child: const CircleAvatar(
-                radius: 100,
-                backgroundColor: Colors.black,
-              ),
-            ),
-          ),
-          const SizedBox(height: 150),
-          Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: null, 
-                  child: const Icon(Icons.more_vert,color: Colors.white)),
-                  const SizedBox(width: 20),
-                   ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: null, 
-                  child: const Icon(Icons.volume_up,color: Colors.white)),
-                  const SizedBox(width: 20),
-                   ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
-                    shape: const CircleBorder(
-                      side: BorderSide(
-                        color: Colors.white,
-                        width: 1,
-                      ),
-                    ),
-                    minimumSize: const Size(63, 63)
-                  ),
-                  onPressed: (){
-                    Navigator.of(context).pop();
-                  }, 
-                  child:  const Icon(Icons.call_end,color: Colors.black),
-                   ),
-                  ],
-                ),
-        ],
-      ),
-    );
+    
+    return ZegoUIKitPrebuiltCall(
+      appID: 179656385, 
+      appSign: '89133e05afd2a88d888e9d74c4d47b82df6a2a5d8c245bf96314b942a1ebef52',
+      callID: channelName,
+       userID: userId, 
+       userName: userName, 
+       config: isVideoCall ?
+       ZegoUIKitPrebuiltCallConfig.oneOnOneVideoCall()
+       : ZegoUIKitPrebuiltCallConfig.oneOnOneVoiceCall()
+       ..turnOnCameraWhenJoining = false,
+       );
   }
 }

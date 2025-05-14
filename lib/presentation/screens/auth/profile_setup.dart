@@ -132,17 +132,17 @@ class ProfileSetUp extends StatelessWidget {
                     await ref.putFile(imageProvider.image!);
                     imageUrl = await ref.getDownloadURL();
                     }
-                    
+                    final currentUser = await getNumber('number');
+                    final docRef = FirebaseFirestore.instance.collection('users').doc(currentUser);
                        final newData = UserModel(
+                        uid: docRef.id,
                         name: _nameController.text.trim(), 
                         about: _aboutController.text.trim().isNotEmpty ? 
                         _aboutController.text.trim() : 'let them know about you',
                         number: imageProvider.phoneNumber,
                         image: imageUrl ?? '');
 
-                        await FirebaseFirestore.instance
-                        .collection('user')
-                        .add(newData.toMap());
+                        await docRef.set(newData.toMap());
                       final _prefs = await SharedPreferences.getInstance();
                       await _prefs.setBool(SAVE_KEY_VALUE, true);
                       Navigator.of(context).pushAndRemoveUntil(
@@ -168,6 +168,7 @@ class ProfileSetUp extends StatelessWidget {
                          ),
                        );
                     }
+                    imageProvider.imageEmpty();
                   }, 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.amber,
@@ -188,7 +189,7 @@ class ProfileSetUp extends StatelessWidget {
                   ): const SizedBox(
                     height: 20,
                     width: 20,
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(color: Colors.black),
                   )
                   )
               ],
@@ -197,5 +198,9 @@ class ProfileSetUp extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future<String?> getNumber(String key)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
   }
 }

@@ -24,7 +24,7 @@ class SplashProvider {
     final phone = await getUserNumber('number');
     if (phone != null && phone.isNotEmpty) {
       final snapshot = await FirebaseFirestore.instance
-          .collection('user')
+          .collection('users')
           .where('number', isEqualTo: phone)
           .limit(1)
           .get();
@@ -34,9 +34,13 @@ class SplashProvider {
         );
       } else {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const Welcome()),
+          MaterialPageRoute(builder: (context) => Welcome()),
         );
       }
+    }else{
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => Welcome()),
+        );
     }
   }
 

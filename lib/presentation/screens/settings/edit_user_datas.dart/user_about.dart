@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditUserAbout extends StatelessWidget {
-  EditUserAbout({super.key,required this.about});
-  final String about;
+  EditUserAbout({super.key});
   final TextEditingController _newAboutController = TextEditingController();
 
   @override
@@ -28,9 +27,9 @@ class EditUserAbout extends StatelessWidget {
           TextFormField(
             style: const TextStyle(color: Colors.white,),
             controller: _newAboutController,
-            decoration: InputDecoration(
-              hintText: about,
-              hintStyle: const TextStyle(color: Colors.white),
+            decoration: const InputDecoration(
+              hintText: 'New about',
+              hintStyle: TextStyle(color:Color.fromARGB(255, 175, 175, 175)),
             ),          
             validator: (value){
           if(value == null || value.isEmpty){

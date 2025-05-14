@@ -1,16 +1,8 @@
 import 'package:chat_up/presentation/screens/auth/verification_screen.dart';
 import 'package:flutter/material.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({super.key});
-
-  @override
-  State<Welcome> createState() => _WelcomeState();
-}
-
-class _WelcomeState extends State<Welcome> {
-  final ScrollController _scrollController = ScrollController();
-  bool isScrolledToEnd = false;
+class Welcome extends StatelessWidget {
+  Welcome({super.key});
 
   final List<String> instructions = [
     "Experience seamless messaging, voice & video calls with ease.",

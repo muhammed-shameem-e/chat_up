@@ -1,3 +1,4 @@
+import 'package:chat_up/data/repositories/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class MemberProfile extends StatelessWidget {
@@ -39,12 +40,7 @@ class MemberProfile extends StatelessWidget {
           const Center(
             child: Text(
               'David',
-              style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 25,
-              ),
+              style: TextStyles.userNames,
             ),
           ),
           const Center(

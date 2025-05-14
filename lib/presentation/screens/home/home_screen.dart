@@ -1,3 +1,4 @@
+import 'package:chat_up/data/repositories/text_styles.dart';
 import 'package:chat_up/presentation/screens/home/call_list.dart';
 import 'package:chat_up/presentation/screens/home/chat_list.dart';
 import 'package:chat_up/presentation/screens/home/group_list.dart';
@@ -88,12 +89,7 @@ class HomeScreen extends StatelessWidget {
           ],
           title: const Text(
             'ChatUp',
-            style: TextStyle(
-              color: Colors.white,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+            style: TextStyles.userNames
           ),
           bottom: const TabBar(
             indicatorColor: Colors.amber,
@@ -114,12 +110,12 @@ class HomeScreen extends StatelessWidget {
             ],
           )
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
             ChatList(),
-            GroupList(),
-            StatusList(),
-            CallList(),
+            const GroupList(),
+            const StatusList(),
+            const CallList(),
           ],
         ),
        ));

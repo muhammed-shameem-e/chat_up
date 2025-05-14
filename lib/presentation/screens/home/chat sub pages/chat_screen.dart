@@ -1,12 +1,28 @@
-import 'package:chat_up/presentation/screens/home/call%20sub%20pages/call_screen.dart';
+import 'package:chat_up/data/repositories/text_styles.dart';
+import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/chat_screen_sub_pages/input_section.dart';
+import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/chat_screen_sub_pages/personal_message_list.dart';
 import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/member_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+  ChatScreen({super.key,required this.recieverId,required this.image,required this.name});
+
+  final String recieverId;
+  final String image;
+  final String name;
+  final ValueNotifier<String?> _senderIdNotifier = ValueNotifier<String?>(null);
+  // final CallService callService = CallService();
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+    if (_senderIdNotifier.value == null) {
+      String? senderId = await getNumber('number'); 
+      _senderIdNotifier.value = senderId;
+    }
+  });
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -35,20 +51,15 @@ class ChatScreen extends StatelessWidget {
                       color: Colors.black,
                       shape: BoxShape.circle,
                     ),
-                    child: const CircleAvatar(
-                      backgroundColor: Colors.black,
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(image),
                       radius: 20,
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text(
-                            'David',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17.5,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
+                        Text(
+                            name,
+                            style: TextStyles.userNames
                           ),
                 ],
               ),
@@ -56,65 +67,67 @@ class ChatScreen extends StatelessWidget {
           ),
           actions: [
             IconButton(
-              onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+              onPressed: ()async{
+                final senderId = await getNumber('number'); 
+                if(senderId != null){
+                  List<String> ids = [senderId,recieverId];
+                  ids.sort();
+                  String channelName = ids.join('_');
+                   ZegoUIKitPrebuiltCallInvitationService().send(
+                    invitees: [
+                      ZegoCallUser(recieverId, name),
+                    ], 
+                    isVideoCall: false,
+                    callID: channelName,
+                    resourceID: 'zego_call'
+                    );
+                          
+                }
               }, 
               icon: const Icon(Icons.call,color: Colors.white)),
               IconButton(
-              onPressed: (){}, 
+              onPressed: ()async{
+                final senderId = await getNumber('number'); 
+                if(senderId != null){
+                  List<String> ids = [senderId,recieverId];
+                  ids.sort();
+                  String channelName = ids.join('_');
+                  ZegoUIKitPrebuiltCallInvitationService().send(
+                    invitees: [
+                      ZegoCallUser(recieverId, name),
+                    ], 
+                    isVideoCall: true,
+                    callID: channelName,
+                    resourceID: 'zego_call'
+                    );    
+                }
+              }, 
               icon: const Icon(Icons.videocam,color: Colors.white)),
             IconButton(
               onPressed: (){}, 
               icon: const Icon(Icons.more_vert,color: Colors.white))
           ],
         ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 275,
-                height: 50,
-                child: TextFormField(
-                  maxLines: null,
-                  minLines: 1,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 90, 90, 90),
-                    prefixIcon: const Icon(Icons.emoji_emotions,color: Colors.white),
-                    labelText: 'Message',
-                    labelStyle: const TextStyle(color: Colors.white),
-                    suffixIcon: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                      IconButton(
-                        onPressed: (){},
-                         icon: const Icon(Icons.attach_file,color: Colors.white),),
-                      IconButton(
-                        onPressed: (){},
-                         icon: const Icon(Icons.add_a_photo,color: Colors.white),),
-                    ],),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    )
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.amber,
-                    shape: const CircleBorder(),
-                    minimumSize: const Size(50, 50)
-                  ),
-                  onPressed: (){}, 
-                  child: const Icon(Icons.mic,color: Colors.black)),
-            ],
+      body: Column(
+        children: [
+          Expanded( 
+            child: ValueListenableBuilder<String?>(
+              valueListenable: _senderIdNotifier,
+               builder: (context,senderId,_){
+                if(senderId == null){
+                  return const Center(child: CircularProgressIndicator(color: Colors.amber));
+                }
+                return PersonalMessageList(senderId: senderId, recieverId: recieverId);
+               }),
           ),
-        ),
-      ),
+          InputSection(recieverId: recieverId)
+        ],
+      )
     );
+  }
+
+  Future<String?> getNumber(String key)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
   }
 }

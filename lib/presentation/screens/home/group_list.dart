@@ -1,3 +1,4 @@
+import 'package:chat_up/data/repositories/text_styles.dart';
 import 'package:chat_up/presentation/screens/home/group%20sub%20pages/group_screen.dart';
 import 'package:chat_up/presentation/screens/home/group%20sub%20pages/select_group_members.dart';
 import 'package:chat_up/presentation/screens/settings/additional_functions.dart';
@@ -8,7 +9,6 @@ class GroupList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -75,9 +75,9 @@ class GroupList extends StatelessWidget {
                         ),
                       ),
                    ),
-                    title: Text(
+                    title: const Text(
                       'Real Madrid',
-                      style: textTheme.displayLarge,
+                      style: TextStyles.userNames,
                     ),
                     subtitle: const Text(
                       'Mbappe: hyy',

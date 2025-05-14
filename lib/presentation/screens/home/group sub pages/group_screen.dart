@@ -1,4 +1,3 @@
-import 'package:chat_up/presentation/screens/home/call%20sub%20pages/call_screen.dart';
 import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/member_profile.dart';
 import 'package:chat_up/presentation/screens/home/group%20sub%20pages/group_profile.dart';
 import 'package:flutter/material.dart';
@@ -76,12 +75,12 @@ class GroupScreen extends StatelessWidget {
           actions: [
             IconButton(
               onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+                
               }, 
               icon: const Icon(Icons.call,color: Colors.white)),
               IconButton(
               onPressed: (){
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+                
               }, 
               icon: const Icon(Icons.videocam,color: Colors.white)),
             IconButton(

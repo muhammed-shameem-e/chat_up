@@ -1,6 +1,7 @@
 import 'package:chat_up/logic/providers/auth_provider.dart';
 import 'package:chat_up/logic/providers/user_provider.dart';
 import 'package:chat_up/main.dart';
+import 'package:chat_up/presentation/screens/auth/verification_screen.dart';
 import 'package:chat_up/presentation/screens/home/call%20sub%20pages/call_screen.dart';
 import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/chat_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 void chooseCamera(BuildContext context){
     final userProvider = Provider.of<UserProvider>(context,listen: false);
@@ -77,9 +79,14 @@ void confirmation(BuildContext context){
           )),
           TextButton(
           onPressed: ()async{
+            Provider.of<AuthProviders>(context,listen: false).setLoading(false);
+            Provider.of<UserProvider>(context,listen: false).clearUserData();
+            ZegoUIKitPrebuiltCallInvitationService().uninit();
             final _prefs = await SharedPreferences.getInstance();
                       await _prefs.setBool(SAVE_KEY_VALUE, false);
-                      SystemNavigator.pop();
+                      Navigator.of(context).
+                      pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Verification()),
+                      (route) => false);
           }, 
           child: const Text(
             'Log Out',
@@ -136,7 +143,7 @@ void showUserProfile(BuildContext context){
                     minimumSize: const Size(63, 63)
                   ),
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ChatScreen()));
+                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatScreen()));
                   }, 
                   child: const Icon(Icons.details,color: Colors.white)),
                   const SizedBox(width: 20),
@@ -152,7 +159,7 @@ void showUserProfile(BuildContext context){
                     minimumSize: const Size(63, 63)
                   ),
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+
                   }, 
                   child: const Icon(Icons.call,color: Colors.white)),
                   const SizedBox(width: 20),
@@ -168,7 +175,7 @@ void showUserProfile(BuildContext context){
                     minimumSize: const Size(63, 63)
                   ),
                   onPressed: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+                   
                   }, 
                   child: const Icon(Icons.videocam,color: Colors.white))
                   ],

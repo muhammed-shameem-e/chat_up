@@ -27,4 +27,7 @@ class AuthProviders extends ChangeNotifier{
     _isLoading = value;
     notifyListeners();
   }
+  void imageEmpty(){
+    _image = null; 
+  }
 }

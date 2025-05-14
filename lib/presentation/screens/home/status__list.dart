@@ -1,3 +1,4 @@
+import 'package:chat_up/data/repositories/text_styles.dart';
 import 'package:chat_up/presentation/screens/home/status%20sub%20pages/my_status.dart';
 import 'package:chat_up/presentation/screens/home/status%20sub%20pages/user_status.dart';
 import 'package:flutter/material.dart';
@@ -37,12 +38,7 @@ class StatusList extends StatelessWidget {
             ),
             title: const Text(
               'My status',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-              ),
+              style: TextStyles.userNames
             ),
             subtitle: const Text(
               'Tap to add status update',
@@ -89,9 +85,9 @@ class StatusList extends StatelessWidget {
                         backgroundColor: Colors.black,
                       ),
                     ),
-                    title: Text(
-                      'David',
-                      style: textTheme.displayLarge,
+                    title: const Text(
+                      'David', 
+                      style: TextStyles.userNames,
                     ),
                     subtitle: const Text(
                       '3:17 PM',

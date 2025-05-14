@@ -1,3 +1,4 @@
+import 'package:chat_up/data/repositories/text_styles.dart';
 import 'package:chat_up/presentation/screens/home/call%20sub%20pages/call_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -44,9 +45,9 @@ class CallList extends StatelessWidget {
                       backgroundColor: Colors.black
                     ),
                   ),
-                  title: Text(
+                  title: const Text(
                     'David',
-                    style: textTheme.displayLarge
+                    style: TextStyles.userNames
                   ),
                   subtitle: Row(
                     children: [
@@ -66,12 +67,12 @@ class CallList extends StatelessWidget {
                   trailing: index % 2 == 0 ?
                   GestureDetector(
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+                      
                     },
                     child: const Icon(Icons.call,color: Colors.amber))
                   :GestureDetector(
                     onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CallScreen()));
+                      
                     },
                     child: const Icon(Icons.videocam,color: Colors.amber)),
                 );

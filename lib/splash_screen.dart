@@ -1,16 +1,24 @@
 import 'package:chat_up/logic/providers/splash_provider.dart';
 import 'package:flutter/material.dart';
 
-class Splash extends StatelessWidget {
+class Splash extends StatefulWidget {
   const Splash({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Call the provider function after build is done
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      SplashProvider().startCheck(context);
-    });
+  State<Splash> createState() => _SplashState();
+}
 
+class _SplashState extends State<Splash> {
+
+  @override
+  void initState() {
+    SplashProvider().startCheck(context);
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(

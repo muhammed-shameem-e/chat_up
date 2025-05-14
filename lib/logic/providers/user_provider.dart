@@ -10,18 +10,20 @@ class UserProvider extends ChangeNotifier{
   String _about = '';
   String _image = '';
   String _number = '';
+  String _uid = '';
   String? _docId;
 
   String get name => _name;
   String get about => _about;
   String get image => _image;
   String get number => _number;
+  String get uid => _uid;
 
   final ImagePicker _picker = ImagePicker();
 
   Future<void> fetchUserData(String phoneNumber)async{
      final snapshot = await FirebaseFirestore.instance
-      .collection('user')
+      .collection('users')
       .where('number', isEqualTo: phoneNumber)
       .limit(1)
       .get();
@@ -35,6 +37,7 @@ class UserProvider extends ChangeNotifier{
       _about = data['about'] ?? '';
       _image = data['image'] ?? '';
       _number = data['number'] ?? '';
+      _uid = data['uid'] ?? '';
 
       notifyListeners();
       
@@ -43,7 +46,7 @@ class UserProvider extends ChangeNotifier{
 
   Future<void> updateName(String newName) async{
     if(_docId != null){
-      await FirebaseFirestore.instance.collection('user').doc(_docId).update({'name':newName});
+      await FirebaseFirestore.instance.collection('users').doc(_docId).update({'name':newName});
       _name = newName;
       notifyListeners();
     }
@@ -51,7 +54,7 @@ class UserProvider extends ChangeNotifier{
 
   Future<void> updateAbout(String newAbout) async{
     if(_docId != null){
-      await FirebaseFirestore.instance.collection('user').doc(_docId).update({'about':newAbout});
+      await FirebaseFirestore.instance.collection('users').doc(_docId).update({'about':newAbout});
       _about = newAbout;
       notifyListeners();
     }
@@ -84,7 +87,7 @@ class UserProvider extends ChangeNotifier{
 
   // Update Firestore with new image URL
   await FirebaseFirestore.instance
-      .collection('user')
+      .collection('users')
       .doc(_docId)
       .update({'image': newImageUrl});
 
@@ -94,4 +97,13 @@ class UserProvider extends ChangeNotifier{
   return _image;
 }
 
+void clearUserData() {
+  _name = '';
+  _about = '';
+  _image = '';
+  _number = '';
+  _uid = '';
+  _docId = null;
+  notifyListeners();
+}
 }

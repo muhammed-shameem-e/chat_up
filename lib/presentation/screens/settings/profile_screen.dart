@@ -114,10 +114,9 @@ class ProfileScreen extends StatelessWidget {
                     ),
                     trailing: IconButton(
                       onPressed: (){
-                        final currentName = user.name;
                         showDialog(
                           context: context, 
-                          builder: (ctx) => EditUserName(name: currentName));
+                          builder: (ctx) => EditUserName());
                       }, 
                       icon: const Icon(Icons.edit,color:Colors.amber)),
                     subtitle: Text(
@@ -131,10 +130,9 @@ class ProfileScreen extends StatelessWidget {
                   ListTile(
                      trailing: IconButton(
                       onPressed: (){
-                        final currentAbout = user.about;
                         showDialog(
                           context: context, 
-                          builder: (ctx) => EditUserAbout(about: currentAbout));
+                          builder: (ctx) => EditUserAbout());
                       }, 
                       icon: const Icon(Icons.edit,color:Colors.amber)),
                     leading: const Icon(Icons.info,color: Colors.white),
@@ -183,5 +181,4 @@ class ProfileScreen extends StatelessWidget {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key);
   }
-  
 }

@@ -57,7 +57,7 @@ class OTP extends StatelessWidget {
                             if(value.length == 6){
                               saveNumber('number', authProvider.phoneNumber);
                               final snapshot = await FirebaseFirestore.instance
-                                     .collection('user')
+                                     .collection('users')
                                      .where('number',isEqualTo: authProvider.phoneNumber)
                                      .get();
                               if(snapshot.docs.isNotEmpty){

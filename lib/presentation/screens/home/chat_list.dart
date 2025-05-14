@@ -1,13 +1,20 @@
+import 'package:chat_up/data/repositories/contact_repositerios.dart';
+import 'package:chat_up/data/repositories/text_styles.dart';
+import 'package:chat_up/logic/providers/contact_provider.dart';
 import 'package:chat_up/presentation/screens/home/chat%20sub%20pages/chat_screen.dart';
 import 'package:chat_up/presentation/screens/settings/additional_functions.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatList extends StatelessWidget {
-  const ChatList({super.key});
+  ChatList({super.key});
 
+  final FetchContact fetchContact = FetchContact();
+  
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final contactProvider = Provider.of<ContactProvider>(context,listen: false);
     return Scaffold(
       backgroundColor: Colors.black,
       body: Column(
@@ -31,15 +38,28 @@ class ChatList extends StatelessWidget {
                   )
                 ),
               ),
-            ),
+            ), 
           ),
           const SizedBox(height: 20),
           Expanded(
-            child: ListView.separated(
+            child: FutureBuilder(
+              future: _fetchContacts(contactProvider), 
+              builder: (context,snapshot){
+                if(snapshot.connectionState == ConnectionState.waiting){
+                  return const Center(child: CircularProgressIndicator(color: Colors.amber,),);
+                } else {
+                  final matchUser = contactProvider.matchedContatcts;
+                  return matchUser.isEmpty 
+            ? const Center(child: Text('No chatUp Users from your contacts',
+            style: TextStyle(color: Colors.white,),),)
+            : ListView.builder(
               itemBuilder: (ctx,index){
+                final user = matchUser[index];
                 return GestureDetector(
                   onTap: (){
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ChatScreen()));
+                    Navigator.of(context)
+                    .push(MaterialPageRoute(builder: 
+                    (context) => ChatScreen(recieverId: user['number'],image: user['image'],name: user['name'],)));
                   },
                   child: ListTile(
                    leading: GestureDetector(
@@ -54,19 +74,21 @@ class ChatList extends StatelessWidget {
                           ),
                           shape: BoxShape.circle,
                         ),
-                        child: const CircleAvatar(
+                        child: CircleAvatar(
                           radius: 30,
+                          backgroundImage: user['image'] != null && user['image'].isNotEmpty 
+                          ? NetworkImage(user['image'])
+                          : null,
                           backgroundColor: Colors.black,
-                          child: Icon(Icons.person,color: Colors.white,size: 30),
                         ),
                       ),
                    ),
                     title: Text(
-                      'David',
-                      style: textTheme.displayLarge,
+                      user['name'] ?? 'David',
+                      style: TextStyles.userNames,
                     ),
                     subtitle: const Text(
-                      'hyy',
+                      'say hyy',
                       style: TextStyle(
                         color: Color.fromARGB(255, 180, 180, 180),
                       ),
@@ -106,14 +128,23 @@ class ChatList extends StatelessWidget {
                     ),
                   ),
                 );
-              }, 
-              separatorBuilder: (ctx,index){
-                return const SizedBox(height: 5);
               },
-              itemCount: 20),
-          )
+              itemCount: matchUser.length); 
+                }
+              }),
+          ),
         ],
       ),
     );
+  }
+   Future<void> _fetchContacts(ContactProvider contactProvider) async {
+    if (!contactProvider.loading) {
+      List<Map<String, dynamic>> contacts = await fetchContact.getmatchedUsers();
+      contactProvider.setMatchedContacts(contacts);
+    }
+  }
+  Future<String?> getNumber(String key)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key);
   }
 }

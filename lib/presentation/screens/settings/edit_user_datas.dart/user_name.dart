@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class EditUserName extends StatelessWidget {
-  EditUserName({super.key,required this.name});
-  final String name;
+  EditUserName({super.key});
   final TextEditingController _newNameController = TextEditingController();
 
   @override
@@ -28,9 +27,9 @@ class EditUserName extends StatelessWidget {
           TextFormField(
             style: const TextStyle(color: Colors.white,),
             controller: _newNameController,
-            decoration: InputDecoration(
-              hintText: name,
-              hintStyle: const TextStyle(color: Colors.white)
+            decoration: const InputDecoration(
+              hintText: 'New name',
+              hintStyle: TextStyle(color: Color.fromARGB(255, 175, 175, 175))
             ),          
             validator: (value){
               if(value == null || value.isEmpty){
